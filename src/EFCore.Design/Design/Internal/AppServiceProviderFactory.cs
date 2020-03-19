@@ -44,7 +44,7 @@ namespace Microsoft.EntityFrameworkCore.Design.Internal
             _reporter.WriteVerbose(DesignStrings.FindingServiceProvider);
 
             return CreateFromHosting(args)
-                   ?? CreateEmptyServiceProvider();
+                   ?? CreateArgsServiceProvider(args);
         }
 
         private IServiceProvider CreateFromHosting(string[] args)
@@ -97,11 +97,13 @@ namespace Microsoft.EntityFrameworkCore.Design.Internal
             }
         }
 
-        private IServiceProvider CreateEmptyServiceProvider()
+        private IServiceProvider CreateArgsServiceProvider(string[] args)
         {
             _reporter.WriteVerbose(DesignStrings.NoServiceProvider);
 
-            return new ServiceCollection().BuildServiceProvider();
+            return new ServiceCollection()
+                .AddScoped(typeof(string[]), sp => args)
+                .BuildServiceProvider();
         }
     }
 }

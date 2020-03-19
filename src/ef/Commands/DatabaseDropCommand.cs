@@ -15,7 +15,7 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
 
             void LogDropCommand(Func<object, object, string> resource)
             {
-                var result = executor.GetContextInfo(Context.Value());
+                var result = executor.GetContextInfo(Context.Value(), RemainingArguments);
                 var databaseName = result["DatabaseName"] as string;
                 var dataSource = result["DataSource"] as string;
                 Reporter.WriteInformation(resource(databaseName, dataSource));
@@ -38,7 +38,7 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
                 }
             }
 
-            executor.DropDatabase(Context.Value());
+            executor.DropDatabase(Context.Value(), RemainingArguments);
 
             return base.Execute();
         }

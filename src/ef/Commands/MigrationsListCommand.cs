@@ -13,7 +13,8 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
     {
         protected override int Execute()
         {
-            var migrations = CreateExecutor().GetMigrations(Context.Value()).ToList();
+            var migrations = CreateExecutor()
+                .GetMigrations(Context.Value(), RemainingArguments).ToList();
 
             if (_json.HasValue())
             {

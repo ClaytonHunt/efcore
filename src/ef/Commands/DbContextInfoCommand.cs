@@ -11,7 +11,7 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
     {
         protected override int Execute()
         {
-            var result = CreateExecutor().GetContextInfo(Context.Value());
+            var result = CreateExecutor().GetContextInfo(Context.Value(), RemainingArguments);
 
             if (_json.HasValue())
             {

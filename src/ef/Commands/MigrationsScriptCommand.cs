@@ -16,7 +16,8 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
                 _from.Value,
                 _to.Value,
                 _idempotent.HasValue(),
-                Context.Value());
+                Context.Value(),
+                RemainingArguments);
 
             if (!_output.HasValue())
             {

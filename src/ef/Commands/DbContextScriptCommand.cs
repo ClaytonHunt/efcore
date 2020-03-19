@@ -13,7 +13,7 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
         protected override int Execute()
         {
             var sql = CreateExecutor().ScriptDbContext(
-                Context.Value());
+                Context.Value(), RemainingArguments);
 
             if (!_output.HasValue())
             {
