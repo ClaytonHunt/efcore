@@ -1,7 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Collections.Generic;
+using JetBrains.Annotations;
 using Microsoft.DotNet.Cli.CommandLine;
 using Microsoft.EntityFrameworkCore.Tools.Properties;
 
@@ -9,8 +9,6 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
 {
     internal abstract class CommandBase
     {
-        protected string[] RemainingArguments { get; private set; }
-
         public virtual void Configure(CommandLineApplication command)
         {
             var verbose = command.Option("-v|--verbose", Resources.VerboseDescription);
@@ -18,10 +16,9 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
             var prefixOutput = command.Option("--prefix-output", Resources.PrefixDescription);
 
             command.HandleResponseFiles = true;
-            RemainingArguments = command.RemainingArguments.ToArray();
 
             command.OnExecute(
-                () =>
+                (args) =>
                 {
                     Reporter.IsVerbose = verbose.HasValue();
                     Reporter.NoColor = noColor.HasValue();
@@ -29,7 +26,7 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
 
                     Validate();
 
-                    return Execute();
+                    return Execute(args);
                 });
         }
 
@@ -37,7 +34,7 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
         {
         }
 
-        protected virtual int Execute()
+        protected virtual int Execute([NotNull] string[] args)
             => 0;
     }
 }

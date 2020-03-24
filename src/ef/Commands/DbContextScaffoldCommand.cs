@@ -25,9 +25,9 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
             }
         }
 
-        protected override int Execute()
+        protected override int Execute(string[] args)
         {
-            var result = CreateExecutor().ScaffoldContext(
+            var result = CreateExecutor(args).ScaffoldContext(
                 _provider.Value,
                 _connection.Value,
                 _outputDir.Value(),
@@ -37,14 +37,13 @@ namespace Microsoft.EntityFrameworkCore.Tools.Commands
                 _tables.Values,
                 _dataAnnotations.HasValue(),
                 _force.HasValue(),
-                _useDatabaseNames.HasValue(),
-                RemainingArguments);
+                _useDatabaseNames.HasValue());
             if (_json.HasValue())
             {
                 ReportJsonResults(result);
             }
 
-            return base.Execute();
+            return base.Execute(args);
         }
 
         private static void ReportJsonResults(IDictionary result)
